@@ -1,3 +1,5 @@
+from lxml import etree
+
 def partido_tv(partido):
 	nombrelocal=doc.findall("match/local")
 	nombrevisitante=doc.finall("match/visitor")
