@@ -1,9 +1,82 @@
-from funciones import jornada, local, visitante
+from funciones import jornada, local, visitante, resultado, fecha, tv, minuto
 
-jornada=jornada()
 
-local=local(jornada)
-visitante=visitante(jornada)
+print("Elige una opción: ")
+print("1. Mostrar partidos de la jornada indicada.")
+print("2. Partidos que hay una fecha especificada.")
+print("3. Poner equipo y jornada para mostrarnos información.")
+print("4. Poner tv y nos dira los partidos que retransmiten por dicho canal.")
+print("5. Poner local o visitante y nos mostrara solo los partidos ganados por el señalado.")
+print("0. Salir")
+print("")
+menu=input("Introduce el número de opcion que desea realizar: ")
 
-for i, x in zip(local,visitante):
-	print(i, "-", x)
+while menu!="0":
+	if menu=="1":
+		jornada=jornada(input("Dime la jornada, si desea la actual dejelo en blanco: "))
+		for l, v, r, f, t, m in zip(local(jornada),visitante(jornada),resultado(jornada),fecha(jornada), tv(jornada),minuto(jornada)):
+			if r=="x-x":
+				print (l, "-", v, f, t)
+			elif m=="" and r!="x-x":
+				print(l, r, v, "FIN")
+			else:
+				print(l, r, v, "Min:", m)
+
+		menu=input("Elige otra opcion: ")
+
+	if menu=="2":
+		jornada=jornada(input("Dime la jornada, si desea la actual dejelo en blanco: "))
+		fechas=[]
+		for f in fecha(jornada):
+			fechas.append(f[0:10])
+		for i in set(fechas):
+			print (i, fechas.count(i))
+
+		menu=input("Elige otra opcion: ")
+
+	if menu=="3":
+		jornada=jornada(input("Dime la jornada, si desea la actual dejelo en blanco: "))
+		equipo=input("Dime el equipo: ")
+		for l, v, r, f, t, m in zip(local(jornada),visitante(jornada),resultado(jornada),fecha(jornada), tv(jornada),minuto(jornada)):
+			if l==equipo or v==equipo:	
+				if r=="x-x":
+					print (l, "-", v, f, t)
+				elif m=="" and r!="x-x":
+					print(l, r, v, "FIN")
+				else:
+					print(l, r, v, "Min:", m)
+
+		menu=input("Elige otra opcion: ")
+
+	if menu=="4":
+		jornada=jornada(input("Dime la jornada, si desea la actual dejelo en blanco: "))
+		tele=input("Dime la TV(beIN LaLiga / M. Partidazo / GOL): ")
+		for l, v, r, f, t, m in zip(local(jornada),visitante(jornada),resultado(jornada),fecha(jornada), tv(jornada),minuto(jornada)):
+			if tele==t:	
+				if r=="x-x":
+					print (l, "-", v, f)
+				elif m=="" and r!="x-x":
+					print(l, r, v, "FIN")
+				else:
+					print(l, r, v, "Min:", m)
+
+		menu=input("Elige otra opcion: ")
+
+	if menu=="5":
+		jornada=jornada(input("Dime la jornada, si desea la actual dejelo en blanco: "))
+		ganados=input("Ganadores de la jornada(local/visitante): ")
+		for l, v, r, f, t, m in zip(local(jornada),visitante(jornada),resultado(jornada),fecha(jornada), tv(jornada),minuto(jornada)):
+			if ganados=="local":
+				if r[0]>r[2]:
+					if m=="" and r!="x-x":
+						print(l, r, v, "FIN")
+					else:
+						print(l, r, v, "Min:", m)
+			elif ganados=="visitante":
+				if r[2]>r[0]:
+					if m=="" and r!="x-x":
+						print(l, r, v, "FIN")
+					else:
+						print(l, r, v, "Min:", m)
+		menu=input("Elige otra opcion: ")
+
